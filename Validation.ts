@@ -54,3 +54,37 @@ export const ValidateCompetition = z.object({
 });
 
 export type CompetitonType = z.infer<typeof ValidateCompetition>;
+
+const ScoreTeam = z.object({
+  id: z.number(),
+  name: z.string(),
+  shortName: z.string(),
+  crest: z.string(),
+  coach: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  leagueRank: z.string(),
+});
+
+export const ValidateScore = z.object({
+  emblem: z.string().optional(),
+  matches: z.array(
+    z.object({
+      id: z.number(),
+      utcDate: z.date(),
+      status: z.string(),
+      homeTeam: ScoreTeam,
+      awayTeam: ScoreTeam,
+      score: z.object({
+        winner: z.enum(["HOME_TEAM", "AWAY_TEAM", "DRAW"]),
+        fullTime: z.object({
+          home: z.number(),
+          away: z.number(),
+        }),
+      }),
+    })
+  ),
+});
+
+export type ScoreType = z.infer<typeof ValidateScore>;
