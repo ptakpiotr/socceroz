@@ -10,6 +10,7 @@ import { HeaderStyles, TabStyles } from "./GlobalStyles";
 import TabIcon, { IProps } from "./components/TabIcon";
 import Videos from "./screens/Videos";
 import Scores from "./screens/Scores";
+import Teams from "./screens/Teams";
 
 type TabIconProps<T> = IProps<T>;
 
@@ -52,6 +53,10 @@ export default function App() {
     appRoutes.set("Tables", [
       { style: TabStyles.icon, name: "table-rows", focused: true },
       Tables,
+    ]);
+    appRoutes.set("Team Info", [
+      { style: TabStyles.icon, name: "people", focused: true },
+      Teams,
     ]);
 
     setRoutes(appRoutes);

@@ -1,13 +1,4 @@
-import {
-  View,
-  Text,
-  Alert,
-  FlatList,
-  Modal,
-  StyleSheet,
-  Button,
-  ToastAndroid,
-} from "react-native";
+import { View, Text, Alert, FlatList } from "react-native";
 import React, { useState } from "react";
 import axios from "axios";
 import { ValidateVideo, VideoType } from "../Validation";
@@ -15,16 +6,16 @@ import { REACT_APP_API_KEY } from "@env";
 import VideoView from "../components/VideoView";
 import { ViewStyles } from "../GlobalStyles";
 import WebView from "react-native-webview";
-import CloseButton from "../components/CloseButton";
 
 import { styles } from "../styles/VideosStyles";
 import { useQuery } from "@tanstack/react-query";
 import { IModal } from "../Types";
-
+import MyModal from "../components/MyModal";
+import MyModalHeader from "../components/MyModalHeader";
 
 const Videos = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const [videoInfo, setVideoInfo] = useState<IModal>();
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const { data: videoData, isLoading } = useQuery<unknown, unknown, VideoType>({
     queryKey: ["videos"],
@@ -59,41 +50,23 @@ const Videos = () => {
 
   return (
     <View style={ViewStyles.view}>
-      <Modal
-        visible={showModal}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => {
-          setShowModal(false);
-        }}
-      >
-        <View style={styles.modal}>
-          <View style={styles.matchInfo}>
-            <Text style={[ViewStyles.text, styles.matchHighlightsTitle]}>
-              Match highlights
-            </Text>
-            <CloseButton
-              action={() => {
-                setShowModal(false);
-              }}
-            />
-          </View>
-          <View
-            style={{
-              flex: 11,
-            }}
-          >
-            <WebView
-              style={styles.webView}
-              originWhitelist={["*"]}
-              source={{ html: videoInfo?.embed ?? "" }}
-            />
-            <Text style={[ViewStyles.text, styles.highlightsTitle]}>
-              {videoInfo?.title}
-            </Text>
-          </View>
+      <MyModal showModal={showModal} setShowModal={setShowModal}>
+        <MyModalHeader text={"Match highlights"} setShowModal={setShowModal} />
+        <View
+          style={{
+            flex: 11,
+          }}
+        >
+          <WebView
+            style={styles.webView}
+            originWhitelist={["*"]}
+            source={{ html: videoInfo?.embed ?? "" }}
+          />
+          <Text style={[ViewStyles.text, styles.highlightsTitle]}>
+            {videoInfo?.title}
+          </Text>
         </View>
-      </Modal>
+      </MyModal>
       <FlatList
         data={videoData?.response}
         renderItem={(item) => {

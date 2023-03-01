@@ -6,11 +6,13 @@ import { ScoreType } from "../Validation";
 import { SvgUri } from "react-native-svg";
 import ScoreResult from "./ScoreResult";
 
-export type Props = ScoreType["matches"][0];
+export type Props = ScoreType["matches"][0] & {
+  onPress: () => void;
+};
 
 function ScoreItem(props: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.75}>
+    <TouchableOpacity activeOpacity={0.75} onPress={props.onPress}>
       <View style={styles.view}>
         <View style={styles.crest}>
           {props.homeTeam.crest.includes("svg") ? (

@@ -88,3 +88,30 @@ export const ValidateScore = z.object({
 });
 
 export type ScoreType = z.infer<typeof ValidateScore>;
+
+export const ValidateTeam = z.object({
+  area: z.object({
+    name: z.string(),
+    code: z.string(),
+    flag: z.string(),
+  }),
+  name: z.string(),
+  shortName: z.string(),
+  crest: z.string(),
+  venue: z.string(),
+  coach: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  squad: z.array(
+    z.object({
+      firstName: z.string(),
+      lastName: z.string(),
+      position: z.string(),
+      dateOfBirth: z.string(),
+      shirtNumber: z.number(),
+    })
+  ),
+});
+
+export type TeamType = z.infer<typeof ValidateTeam>;
