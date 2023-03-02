@@ -1,12 +1,11 @@
 import { View, Text, Modal, ModalProps } from "react-native";
 import React, { useState } from "react";
 import { styles } from "../styles/VideosStyles";
-import { ViewStyles } from "../GlobalStyles";
-import CloseButton from "./CloseButton";
 
 type Props = ModalProps & {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  transparent?: boolean;
 };
 
 function MyModal(props: Props) {
@@ -22,7 +21,16 @@ function MyModal(props: Props) {
         setShowModal(false);
       }}
     >
-      <View style={styles.modal}>
+      <View
+        style={[
+          styles.modal,
+          props.transparent
+            ? {
+                backgroundColor: "transparent",
+              }
+            : {},
+        ]}
+      >
         {props.children}
       </View>
     </Modal>

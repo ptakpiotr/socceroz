@@ -16,15 +16,15 @@ function ScoreItem(props: Props) {
       <View style={styles.view}>
         <View style={styles.crest}>
           {props.homeTeam.crest.includes("svg") ? (
-            <SvgUri width={100} height={100} uri={props.homeTeam.crest} />
+            <SvgUri width={80} height={80} uri={props.homeTeam.crest} />
           ) : (
             <Image
               source={{
                 uri: props.homeTeam.crest,
               }}
               style={{
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
               }}
             />
           )}
@@ -53,15 +53,15 @@ function ScoreItem(props: Props) {
         </View>
         <View style={[styles.crest, styles.lastCrest]}>
           {props.awayTeam.crest.includes("svg") ? (
-            <SvgUri width={100} height={100} uri={props.awayTeam.crest} />
+            <SvgUri width={80} height={80} uri={props.awayTeam.crest} />
           ) : (
             <Image
               source={{
                 uri: props.awayTeam.crest,
               }}
               style={{
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
               }}
             />
           )}

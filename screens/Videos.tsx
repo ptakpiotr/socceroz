@@ -27,7 +27,6 @@ const Videos = () => {
         .then((dt) => {
           try {
             const parsedData = ValidateVideo.parse(dt.data);
-            console.log("TEST");
             return parsedData;
           } catch (ex) {
             Alert.alert(

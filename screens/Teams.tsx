@@ -4,7 +4,6 @@ import {
   View,
   TextInput,
   Image,
-  FlatList,
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
@@ -23,7 +22,7 @@ function Teams() {
   const [data, setData] = useState<TeamType>(file);
 
   return (
-    <View style={ViewStyles.view}>
+    <ScrollView style={ViewStyles.view}>
       <View style={styles.searchBar}>
         <TextInput style={styles.input} />
         <MyButton iconName="search" bgColor="rgb(90,180,35)">
@@ -56,22 +55,15 @@ function Teams() {
             coachName={data.coach.name}
             venue={data.venue}
           />
-          <ScrollView
-            style={{
-              maxHeight: "80%",
-            }}
-          >
-            <FlatList
-              data={data.squad}
-              ListHeaderComponent={<MyText>Squad:</MyText>}
-              renderItem={({ item }) => {
-                return <SquadPlayer {...item} />;
-              }}
-            />
-          </ScrollView>
+          <View>
+            <MyText>Squad:</MyText>
+            {data.squad.map((item) => (
+              <SquadPlayer {...item} />
+            ))}
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

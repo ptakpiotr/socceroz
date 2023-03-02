@@ -24,7 +24,6 @@ export const ViewStyles = StyleSheet.create({
   view: {
     backgroundColor: "rgb(40,98,58)",
     width: "100%",
-    height: "100%",
   },
   text: {
     color: "whitesmoke",
