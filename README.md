@@ -18,3 +18,7 @@ This is my first more complex React Native app however I don't consider it a ful
 ![Image_4](./examples/pr_4.png)
 ![Image_5](./examples/pr_5.png)
 ![Image_6](./examples/pr_6.png)
+
+App powered by this two excellent APIs:
+- [Football data](https://www.football-data.org/)
+- [Scorebat](https://www.scorebat.com/)
