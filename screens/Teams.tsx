@@ -5,64 +5,116 @@ import {
   TextInput,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { ViewStyles } from "../GlobalStyles";
 import MyButton from "../components/MyButton";
-import { TeamType } from "../Validation";
-import { SvgUri } from "react-native-svg";
+import { TeamType, ValidateTeam } from "../Validation";
+import { parse, SvgUri } from "react-native-svg";
 import AreaInfo from "../components/AreaInfo";
 import MyText from "../components/MyText";
 import SquadPlayer from "../components/SquadPlayer";
 import GeneralTeamInfo from "../components/GeneralTeamInfo";
-
-const file = require("../data_3.json");
+import { useQuery } from "@tanstack/react-query";
+import { REACT_APP_SCORES_KEY } from "@env";
+import axios from "axios";
+import { useLinkTo } from "@react-navigation/native";
+import MySpinner from "../components/MySpinner";
 
 function Teams() {
-  const [data, setData] = useState<TeamType>(file);
+  const [id, setId] = useState<number>(81);
+  const [idSearch, setIdSearch] = useState<number>(id);
+  const linkTo = useLinkTo();
+  const { data, isLoading } = useQuery<unknown, unknown, TeamType>({
+    queryKey: ["Team", "scores", idSearch],
+    queryFn: () => {
+      return axios
+        .get(`http://api.football-data.org/v4/teams/${idSearch}`, {
+          headers: {
+            "X-Auth-Token": REACT_APP_SCORES_KEY,
+          },
+        })
+        .then((dt) => {
+          const parsedData = ValidateTeam.parse(dt.data);
+          return parsedData;
+        })
+        .catch((err) => {
+          Alert.alert(
+            "An error occured",
+            "An error occured when processing your request. The requested doesn't exist or you excedeed your free permissons"
+          );
+
+          setId(81);
+          setIdSearch(81);
+          linkTo("/Home");
+        });
+    },
+  });
 
   return (
     <ScrollView style={ViewStyles.view}>
       <View style={styles.searchBar}>
-        <TextInput style={styles.input} />
-        <MyButton iconName="search" bgColor="rgb(90,180,35)">
+        <TextInput
+          style={styles.input}
+          keyboardType={"number-pad"}
+          onChangeText={(txt) => {
+            if (txt.match(/\d+/gi)) {
+              setId(parseInt(txt));
+            } else {
+              Alert.alert("Invalid team ID", "Provided team ID wasn't correct");
+            }
+          }}
+        />
+        <MyButton
+          iconName="search"
+          bgColor="rgb(90,180,35)"
+          onPress={() => {
+            setIdSearch(id);
+          }}
+        >
           <Text>Search</Text>
         </MyButton>
       </View>
-      <View style={styles.teamView}>
-        <View style={styles.teamGeneral}>
-          <View
-            style={{
-              flex: 5,
-            }}
-          >
-            {data.crest.includes("svg") ? (
-              <SvgUri uri={data.crest} style={styles.image} />
-            ) : (
-              <Image
-                source={{
-                  uri: data.crest,
-                }}
-                style={styles.image}
-              />
-            )}
+      {data ? (
+        <View style={styles.teamView}>
+          <View style={styles.teamGeneral}>
+            <View
+              style={{
+                flex: 5,
+              }}
+            >
+              {data.crest.includes("svg") ? (
+                <SvgUri
+                  uri={data.crest}
+                  style={styles.image}
+                  width={100}
+                  height={100}
+                />
+              ) : (
+                <Image
+                  source={{
+                    uri: data.crest,
+                  }}
+                  style={styles.image}
+                />
+              )}
+            </View>
+            <AreaInfo {...data.area} />
           </View>
-          <AreaInfo {...data.area} />
-        </View>
-        <View>
-          <GeneralTeamInfo
-            shortName={data.shortName}
-            coachName={data.coach.name}
-            venue={data.venue}
-          />
           <View>
-            <MyText>Squad:</MyText>
-            {data.squad.map((item) => (
-              <SquadPlayer {...item} />
-            ))}
+            <GeneralTeamInfo shortName={data.shortName} venue={data.venue} />
+            <View>
+              <MyText>Squad:</MyText>
+              {data.squad.map((item) => (
+                <SquadPlayer key={`${item.name}`} {...item} />
+              ))}
+            </View>
           </View>
         </View>
-      </View>
+      ) : (
+        <MySpinner />
+      )}
     </ScrollView>
   );
 }

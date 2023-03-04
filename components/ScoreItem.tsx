@@ -6,7 +6,7 @@ import { ScoreType } from "../Validation";
 import { SvgUri } from "react-native-svg";
 import ScoreResult from "./ScoreResult";
 
-export type Props = ScoreType["matches"][0] & {
+export type Props = ScoreType[0] & {
   onPress: () => void;
 };
 

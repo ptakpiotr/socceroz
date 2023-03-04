@@ -60,32 +60,25 @@ const ScoreTeam = z.object({
   name: z.string(),
   shortName: z.string(),
   crest: z.string(),
-  coach: z.object({
-    id: z.number(),
-    name: z.string(),
-  }),
-  leagueRank: z.string(),
+  leagueRank: z.string().optional(),
 });
 
-export const ValidateScore = z.object({
-  emblem: z.string().optional(),
-  matches: z.array(
-    z.object({
-      id: z.number(),
-      utcDate: z.date(),
-      status: z.string(),
-      homeTeam: ScoreTeam,
-      awayTeam: ScoreTeam,
-      score: z.object({
-        winner: z.enum(["HOME_TEAM", "AWAY_TEAM", "DRAW"]),
-        fullTime: z.object({
-          home: z.number(),
-          away: z.number(),
-        }),
+export const ValidateScore = z.array(
+  z.object({
+    id: z.number(),
+    utcDate: z.string(),
+    status: z.string(),
+    homeTeam: ScoreTeam,
+    awayTeam: ScoreTeam,
+    score: z.object({
+      winner: z.enum(["HOME_TEAM", "AWAY_TEAM", "DRAW"]),
+      fullTime: z.object({
+        home: z.number(),
+        away: z.number(),
       }),
-    })
-  ),
-});
+    }),
+  })
+);
 
 export type ScoreType = z.infer<typeof ValidateScore>;
 
@@ -99,17 +92,11 @@ export const ValidateTeam = z.object({
   shortName: z.string(),
   crest: z.string(),
   venue: z.string(),
-  coach: z.object({
-    id: z.number(),
-    name: z.string(),
-  }),
   squad: z.array(
     z.object({
-      firstName: z.string(),
-      lastName: z.string(),
+      name: z.string(),
       position: z.string(),
       dateOfBirth: z.string(),
-      shirtNumber: z.number(),
     })
   ),
 });

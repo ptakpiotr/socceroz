@@ -4,18 +4,14 @@ import MyText from "./MyText";
 
 interface IProps {
   shortName: string;
-  coachName: string;
   venue: string;
 }
 
-function GeneralTeamInfo({ shortName, coachName, venue }: IProps) {
+function GeneralTeamInfo({ shortName, venue }: IProps) {
   return (
     <View>
       <View style={styles.generalTeamInfo}>
         <MyText style={styles.centeredTeamName}>{shortName}</MyText>
-      </View>
-      <View style={styles.generalTeamInfo}>
-        <MyText>Coach: {coachName}</MyText>
       </View>
       <View style={styles.generalTeamInfo}>
         <MyText>Stadium: {venue}</MyText>

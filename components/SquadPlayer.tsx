@@ -9,10 +9,10 @@ function SquadPlayer(props: Props) {
   return (
     <View style={styles.squadPlayerView}>
       <MyText>
-        {props.firstName} {props.lastName} | {props.position}
+        {props.name} | {props.position}
       </MyText>
       <View style={styles.number}>
-        <MyText style={styles.numberText}>{props.shirtNumber}</MyText>
+        <MyText style={styles.numberText}>{0}</MyText>
       </View>
     </View>
   );

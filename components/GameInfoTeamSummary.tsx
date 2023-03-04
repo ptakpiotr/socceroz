@@ -9,7 +9,6 @@ function GameInfoTeamSummary(props: Props) {
   return (
     <View style={styles.gameInfo}>
       <MyText>Club: {props.name}</MyText>
-      <MyText>Coach: {props.coach.name}</MyText>
       <MyText>Rank: {props.leagueRank}</MyText>
       <MyText></MyText>
     </View>

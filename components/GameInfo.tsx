@@ -14,7 +14,7 @@ function GameInfo(props: Props) {
       </View>
       <View style={styles.container}>
         {props.homeTeam.crest.includes("svg") ? (
-          <SvgUri uri={props.homeTeam.crest} style={styles.gameImage} />
+          <SvgUri uri={props.homeTeam.crest} style={styles.gameImage} width={150} height={150} />
         ) : (
           <ImageBackground
             source={{
@@ -28,6 +28,8 @@ function GameInfo(props: Props) {
           <SvgUri
             uri={props.awayTeam.crest}
             style={[styles.gameImage, styles.positiveRotate]}
+            width={150}
+            height={150}
           />
         ) : (
           <ImageBackground
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     zIndex: -1,
+    flex:1,
     transform: [
       {
         rotate: "-30deg",
